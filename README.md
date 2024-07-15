@@ -1,7 +1,15 @@
 # ESP32-Mesh_RSSI
 Scan RSSI of Wi-Fi Networks with ESP32 in Mesh Topology
 
+# How it Works
+The system has the following workflow: first, the device is powered on using a power source. Then, the device will automatically perform an RSSI scan of various Access Points (APs). Once the RSSI scan is complete, the ESP32 will initiate a mesh network to distribute data to other ESP32 devices. After a while, the device will stop the mesh mode and begin sending data to the server. The server will display data based on the latest data sent from the ESP32.
 
+# System Components
+* ESP32 with source code
+* Database Server
+
+# Tested Hardware
+The program has been uploaded on ESP32 module and has ran successfully. Compatibility with an ESP8266 has not been verified.
 
 ## Dependencies
 
