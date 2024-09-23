@@ -5,7 +5,12 @@
 #define EAP_USERNAME "USERNAME" //oftentimes just a repeat of the identity
 #define EAP_PASSWORD "PASSWORD" //your Eduroam password
 const char* ssid = "SSID"; // SSID
-const char* host = "HOST"; // external server domain for HTTP connection after authentification
+
+// External server containing the database
+const char* host = "HOST"; // IP address of the external server
+const int port = 80;
+const char* API = "API"; // API of the server
+
 int counter = 0;
 
 #include <painlessMesh.h>
@@ -18,8 +23,8 @@ int counter = 0;
 #define   BLINK_PERIOD    3000 // milliseconds until cycle repeat
 #define   BLINK_DURATION  100  // milliseconds LED is on for
 
-#define   MESH_SSID       "whateverYouLike"
-#define   MESH_PASSWORD   "somethingSneaky"
+#define   MESH_SSID       "MESH"
+#define   MESH_PASSWORD   "Sneaks"
 #define   MESH_PORT       5555
 
 // Prototypes
@@ -88,18 +93,6 @@ void setup() {
       Serial.println(" networks found");
       Serial.println("Nr | SSID                             | RSSI | CH | Encryption");
       for (int i = 0; i < n; ++i) {
-          // Print SSID and RSSI for each network found
-          //RSSI_Network[i]= String(i + 1) + " | " + String(WiFi.SSID(i).c_str()) + " | " + String(WiFi.channel(i)) + " | ";
-          /*
-          Serial.printf("%2d",i + 1);
-          Serial.print(" | ");
-          Serial.printf("%-32.32s", WiFi.SSID(i).c_str());
-          Serial.print(" | ");
-          Serial.printf("%4d", WiFi.RSSI(i));
-          Serial.print(" | ");
-          Serial.printf("%2d", WiFi.channel(i));
-          Serial.print(" | ") ;
-          */
           Serial.println(RSSI_Network[i]);
           switch (WiFi.encryptionType(i))
           {
@@ -260,13 +253,13 @@ void loop() {
       Serial.print("Connecting to website: ");
       Serial.println(host);
       WiFiClient client;
-      if (client.connect(host, 80)) {
+      if (client.connect(host, port)) {
 
         for (int i = 0; i < arraySize; i++){
           if (RSSI_Network[i].length() > 0) {
             Serial.println(RSSI_Network[i]);
             HTTPClient http;
-            http.begin("http://10.255.50.11/api.php");
+            http.begin(API);
             http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
             auto httpCode = http.POST(RSSI_Network[i]);
@@ -285,7 +278,7 @@ void loop() {
           if (Received_RSSI_Network[i].length() > 0) {
             Serial.println(Received_RSSI_Network[i]);
             HTTPClient http;
-            http.begin("http://10.255.50.11/api.php");
+            http.begin(API);
             http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
             auto httpCode = http.POST(Received_RSSI_Network[i]);
@@ -296,12 +289,9 @@ void loop() {
             delay(10);
             }
           }
-
       } else {
           Serial.println("Connection unsucessful");
       }  
-
-      //ESP.restart();
   }
 }
 void sendMessage() {
@@ -326,7 +316,6 @@ void sendMessage() {
   
   taskSendMessage.setInterval( random(TASK_SECOND * 1, TASK_SECOND * 5));  // between 1 and 5 seconds
 }
-
 
 void receivedCallback(uint32_t from, String & msg) {
   Serial.printf("startHere: Received from %u msg=%s\n", from, msg.c_str());
