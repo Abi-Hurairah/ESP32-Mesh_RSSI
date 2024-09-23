@@ -4,8 +4,8 @@
 #define EAP_IDENTITY "IDENTITY" //if connecting from another corporation, use identity@organisation.domain in Eduroam 
 #define EAP_USERNAME "USERNAME" //oftentimes just a repeat of the identity
 #define EAP_PASSWORD "PASSWORD" //your Eduroam password
-const char* ssid = "SSID"; // Eduroam SSID
-const char* host = "HOST"; //external server domain for HTTP connection after authentification
+const char* ssid = "SSID"; // SSID
+const char* host = "HOST"; // external server domain for HTTP connection after authentification
 int counter = 0;
 
 #include <painlessMesh.h>
