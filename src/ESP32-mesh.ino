@@ -1,11 +1,11 @@
 #include <WiFi.h> //Wifi library
 #include "esp_wpa2.h" //wpa2 library for connections to Enterprise networks
 #include <HTTPClient.h>
-#define EAP_IDENTITY "abihurairah@student.ub.ac.id" //if connecting from another corporation, use identity@organisation.domain in Eduroam 
-#define EAP_USERNAME "abihurairah@student.ub.ac.id" //oftentimes just a repeat of the identity
-#define EAP_PASSWORD "rytbas-3vysde-Dacpeg" //your Eduroam password
-const char* ssid = "WiFi-UB.x"; // Eduroam SSID
-const char* host = "10.255.50.6"; //external server domain for HTTP connection after authentification
+#define EAP_IDENTITY "IDENTITY" //if connecting from another corporation, use identity@organisation.domain in Eduroam 
+#define EAP_USERNAME "USERNAME" //oftentimes just a repeat of the identity
+#define EAP_PASSWORD "PASSWORD" //your Eduroam password
+const char* ssid = "SSID"; // Eduroam SSID
+const char* host = "HOST"; //external server domain for HTTP connection after authentification
 int counter = 0;
 
 #include <painlessMesh.h>
@@ -46,12 +46,12 @@ bool onFlag = false;
 long lastDoTime = 0;
 
 // Keep track of time
-long timer1=millis(), timer2;
+long timer1=millis();
 int biggest_NodeSize=0;
 
 int n;
-String RSSI_Network[64];
-String Received_RSSI_Network[2048];
+String RSSI_Network[64]; // batas data yang diambil sendiri
+String Received_RSSI_Network[2048]; // batas data dari node lain
 String get_sec;
 int Received_Amount=0;
 
@@ -261,25 +261,12 @@ void loop() {
       Serial.println(host);
       WiFiClient client;
       if (client.connect(host, 80)) {
-        
-        /*
-        arraySize = sizeof(RSSI_Network) / sizeof(RSSI_Network[0]);
-        Serial.println("ESP32 Local Sensor Readings:");
-        for (int i = 0; i < arraySize; i++){
-          if (RSSI_Network[i].length() > 0){
-            Serial.println(RSSI_Network[i]);
-          }
-        }
-
-        RSSI_Network[i]= WiFi.macAddress() + " | " + String(i + 1) + " | " + WiFi.RSSI(i) + " | " + String(WiFi.SSID(i).c_str()) + " | " + String(WiFi.channel(i)) + " | " + String("open");
-
-        */
 
         for (int i = 0; i < arraySize; i++){
           if (RSSI_Network[i].length() > 0) {
             Serial.println(RSSI_Network[i]);
             HTTPClient http;
-            http.begin("http://10.255.50.6/send_data.php");
+            http.begin("http://10.255.50.11/api.php");
             http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
             auto httpCode = http.POST(RSSI_Network[i]);
@@ -298,14 +285,14 @@ void loop() {
           if (Received_RSSI_Network[i].length() > 0) {
             Serial.println(Received_RSSI_Network[i]);
             HTTPClient http;
-            http.begin("http://10.255.50.6/send_data.php");
+            http.begin("http://10.255.50.11/api.php");
             http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
             auto httpCode = http.POST(Received_RSSI_Network[i]);
+            
             String payload = http.getString();
-
+            
             Serial.print(">> "); Serial.println(payload);
-
             delay(10);
             }
           }
@@ -316,8 +303,6 @@ void loop() {
 
       //ESP.restart();
   }
-  //doThisAtEvery(12000);
-
 }
 void sendMessage() {
   String msg = "Hello from node ";
