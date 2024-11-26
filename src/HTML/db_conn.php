@@ -1,13 +1,12 @@
 <?php
-$servername = "xxxxxx";
-$username = "xxxxxx";
-$password = "xxxxxx";
-$dbname = "xxxxxx";
+	$host = "localhost";
+	$user = "pp";
+	$pass = "change";
+	$dbnm = "pp";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+	$conn = mysqli_connect($host, $user, $pass, $dbnm);
 
-if ($conn->connect_error) {
-    die("CONNECTION FAILED " . $conn->connect_error);
-}
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn -> connect_error);
+	}
 ?>
-
