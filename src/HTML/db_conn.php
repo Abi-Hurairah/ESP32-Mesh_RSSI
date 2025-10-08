@@ -1,8 +1,8 @@
 <?php
 	$host = "localhost";
-	$user = "pp";
-	$pass = "change";
-	$dbnm = "pp";
+	$user = "user"; //user of database
+	$pass = "pass"; //password of the database user
+	$dbnm = "rssi_readings"; //database name
 
 	$conn = mysqli_connect($host, $user, $pass, $dbnm);
 
