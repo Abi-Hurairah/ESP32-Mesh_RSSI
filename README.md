@@ -5,15 +5,14 @@ This project implements a distributed Wi-Fi signal monitoring system using ESP32
 WiFi provides easy access to the internet. However, problems can occur causing slow WiFi connections for the users. These can be due to a variety of factors such as signal interference, access point placement, or physical barriers between the transmitter and the user. The ESP32 mesh provides a way to measure Received Signal Strength Indicator (RSSI) in of multiple access points (AP) in various locations and send the data towards a server to be visualized, even in locations where an ESP32 cannot connect to any AP. As long as one of the ESP32s can connect the server, data from all nodes can be stored and collected.
 
 Below is an illustration of the system:
-
-![ESP32_Mesh_Illustration](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/images/ESP32_Mesh_Illustration.png)
+![ESP32_Mesh_Illustration](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/blob/main/images/ESP32_Mesh_Illustration.png)
 
 ## Architecture Diagram
 The system has the following workflow: The ESP32 will automatically perform an RSSI scan of various Access Points (APs). Once the RSSI scan is complete, the ESP32 will initiate a mesh network to distribute data to other ESP32 devices. After a set period, the device will stop the mesh mode and begin sending data to the server. Then, the ESP32 will restart the cycle.  The server will display data based on the latest data sent from the ESP32. 
 
 Below illustrates the state diagram for the nodes:
 
-![Node State Diagram](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/images/Node_State_Diagram.png)
+![Node State Diagram](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/blob/main/images/Node_State_Diagram.png)
 
 ## System Components
 * ESP32 development board with source code
@@ -45,7 +44,7 @@ Steps:
 - Partially reconstructed the integration logic and verified database connectivity.
 - Below is an example of successful data transmission and visualization before the original dashboard was lost. 
 
-![Website](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/images/Website.png)
+![Website](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/blob/main/images/Website.png)
 
 ### Reproducibility
 You can reproduce my part of the system by:
@@ -56,7 +55,7 @@ A database template and instructions are included to help replicate the data tra
 
 Your database should be able to store information in this form:
 
-![Example Result](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/images/Example_Result.png)
+![Example Result](https://github.com/Abi-Hurairah/ESP32-Mesh_RSSI/blob/main/images/Example_Result.png)
 
 ## Note on Collaboration
 This repository includes both firmware and server-side components for completeness.
